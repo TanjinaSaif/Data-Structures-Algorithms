@@ -1,0 +1,93 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+struct node
+{
+    int data;
+    struct node *left;
+    struct node*right;
+};
+struct node *root;
+
+void initialize()
+{
+    root = 0;
+}
+
+struct node *insert(struct node *root,int val)
+{
+    if(root==0)
+    {
+        root = (struct node*)malloc(sizeof(struct node));
+        root->data=val;
+        root->left = 0;
+        root->right = 0;
+    }
+    else if(val < root->data)
+    {
+        root->left = insert(root->left,val);
+    }
+    else if(val > root->data)
+    {
+        root->right = insert(root->right,val);
+    }
+    return root;
+};
+
+void preOrder(struct node *root)
+{
+    if(root==0)
+    {
+        return;
+    }
+    printf("%d ",root->data);
+    preOrder(root->left);
+    preOrder(root->right);
+}
+void postOrder(struct node *root)
+{
+    if(root==0)
+    {
+        return ;
+    }
+    postOrder(root->left);
+    postOrder(root->right);
+    printf("%d ",root->data);
+
+}
+void inOrder(struct node *root)
+{
+    if(root==0)
+    {
+        return ;
+    }
+    inOrder(root->left);
+    printf("%d ",root->data);
+    inOrder(root->right);
+}
+
+int main()
+{
+    initialize();
+    root=insert(root,7);
+    insert(root,5);
+    insert(root,2);
+    insert(root,10);
+    insert(root,6);
+    insert(root,12);
+    insert(root,1);
+
+    printf("In-order :");
+    inOrder(root);
+    printf("\n");
+    printf("Pre-order :");
+    preOrder(root);
+    printf("\n");
+    printf("Post-order :");
+    postOrder(root);
+    printf("\n");
+
+    return 0;
+}
+
+

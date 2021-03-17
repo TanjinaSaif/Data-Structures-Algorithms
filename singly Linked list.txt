@@ -1,0 +1,213 @@
+
+#include <stdio.h>
+#include<stdlib.h>
+
+struct node
+{
+    int data;
+    struct node *next;
+};
+
+struct node *head;
+
+void init()
+{
+    head=NULL;
+}
+
+void insertItem(int value)
+{
+    struct node *temp;
+    temp=(struct node*)malloc(sizeof(struct node));
+    temp->data=value;
+    temp->next=head;
+    head=temp;
+}
+
+void print()
+{
+    struct node *temp;
+    temp=head;
+    while(temp!=NULL)
+    {
+        printf("%d ",temp->data);
+        temp=temp->next;
+    }
+    printf("\n");
+}
+
+struct node* search(int val)
+{
+    struct node *temp;
+    temp=head;
+    while(temp!=NULL)
+    {
+        if(temp->data==val)
+        {
+            return temp;
+        }
+        temp=temp->next;
+    }
+    return 0;
+}
+
+void removeItem(int val)
+{
+    struct node *temp=head;
+    struct node *prev=0;
+    while(temp!=0)
+    {
+        if(temp->data==val)
+            break;
+        prev=temp;
+        temp=temp->next;
+    }
+    if(temp==0)
+        return;
+    else if(temp==head)
+    {
+        head=head->next;
+        free(temp);
+    }
+    else
+    {
+        prev->next=temp->next;
+        free(temp);
+    }
+}
+
+//// Complete the following functions and also add them in main function
+
+void deleteFirst() // The function will delete the first item of the list
+{
+    if(head!=NULL)
+    {
+        head = head->next;
+    }
+}
+void deleteLast() // The function will delete the last item of the list
+{
+    struct node *prev;
+    struct node *temp = head;
+    while(temp->next!=NULL)
+    {
+        prev=temp;
+        temp=temp->next;
+    }
+    free(prev->next);
+    prev->next=NULL;
+
+}
+
+void insertLast(int data) // The function will insert the value at the end of the list
+{
+    struct node *newNode;
+    struct node *temp;
+    newNode = (struct node*)malloc(sizeof(struct node));
+    newNode->data = data;
+    newNode->next = NULL;
+    temp = head;
+    while(temp->next!=NULL)
+    {
+        temp = temp->next;
+    }
+    temp->next = newNode;
+
+}
+
+struct node* findLargest() // The function will find the largest item of the list and return it
+{
+    int m = 0;
+    while (head!=NULL)
+    {
+     if (m < head->data)
+      {
+        m = head->data;
+      }
+        head = head->next;
+    }
+    printf("%d\n",m);
+}
+
+struct node* findMiddle() /*The function will return the middle element of the list. If the list has 6 elements,
+                          it will return the 3rd element. If the list has 7 elements, it will also return the 3rd element.
+                          */
+{
+    struct node *sp = head;
+    struct node *fp = head;
+    if(head!=NULL)
+    {
+        while(fp!=NULL && fp->next!=NULL)
+        {
+            fp = fp->next->next;
+            sp = sp->next;
+        }
+    }
+
+    printf("%d\n",sp->data);
+
+
+}
+
+
+int main()
+{
+    init();
+    int op;
+    printf("1.Insert\n2.Print\n3.Search\n4.Remove\n");
+    printf("5.Delete First\n6.Delete Last\n7.Insert Last\n");
+    printf("8.Find Largest Element\n9.Find Middle Element\n\n");
+    while(1)
+    {
+        scanf("%d",&op);
+        if(op==1)
+        {
+            int val;
+            scanf("%d",&val);
+            insertItem(val);
+        }
+        else if(op==2)
+        {
+            print();
+        }
+        else if(op==3)
+        {
+            int val;
+            scanf("%d",&val);
+            struct node *temp=search(val);
+            if(temp==0)
+                printf("Not found.\n");
+            else
+                printf("Found.\n");
+        }
+        else if(op==4)
+        {
+            int val;
+            scanf("%d",&val);
+            removeItem(val);
+        }
+        else if(op==5)
+        {
+            deleteFirst();
+        }
+        else if(op==6)
+        {
+            deleteLast();
+        }
+        else if(op==7)
+        {
+            int v;
+            scanf("%d",&v);
+            insertLast(v);
+        }
+        else if(op==8)
+        {
+            findLargest();
+        }
+        else if(op==9)
+        {
+            findMiddle();
+        }
+    }
+}
+

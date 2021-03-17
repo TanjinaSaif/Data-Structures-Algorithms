@@ -1,0 +1,83 @@
+
+#include <bits/stdc++.h>
+using namespace std;
+int nNodes;
+int nEdges;
+int **matrix;
+void setNodes(int n)
+{
+    nNodes = n ;
+    matrix = new int*[nNodes];
+    for(int i=0;i<nNodes;i++)
+    {
+        matrix[i] = new int[nNodes];
+    }
+    for(int i=0;i<nNodes;i++)
+    {
+        for(int j=0;j<nNodes;j++){
+            matrix[i][j]=0;
+        }
+    }
+}
+void addEdge(int u,int v)
+{
+    if(u<0 || u>=nNodes || v<0 || v>=nNodes) return;
+    matrix[u][v]=1;
+    matrix[v][u]=1;
+}
+void removeEdge(int u,int v)
+{
+    if(u<0 || u>=nNodes || v<0 || v>=nNodes) return;
+    matrix[u][v]=0;
+    matrix[v][u]=0;
+}
+int getDegree(int u)
+{
+    int c=0;
+    for(int i=0;i<nNodes;i++){
+        if(matrix[u][i]==1) c++;
+    }
+    return c;
+}
+void printGraph()
+{
+    for(int i=0;i<nNodes;i++){
+        for(int j=0;j<nNodes;j++){
+            cout<<matrix[i][j]<<' ';
+        }
+        cout<<"\n";
+    }
+    cout<<endl;
+}
+void isAdjacent(int u,int v)
+{
+    if(matrix[u][v]==1 && matrix[v][u]==1 )
+        cout<<"It's Adjacent"<<endl;
+    else
+        cout<<"Not Adjacent"<<endl;
+        cout<<endl;
+}
+void printAdjacent(int v)
+{
+    cout<<"Adjacent Nodes :";
+    for(int i=0;i<5;i++)
+    {
+        if(matrix[v][i]==1)
+            cout<<i<<" ";
+    }
+    cout<<endl;
+
+}
+int main()
+{
+    setNodes(5);
+    addEdge(0,1);
+    addEdge(0,2);
+    addEdge(2,4);
+    addEdge(4,3);
+    printGraph();
+    isAdjacent(0,2);
+    isAdjacent(2,1);
+    printAdjacent(4);
+}
+

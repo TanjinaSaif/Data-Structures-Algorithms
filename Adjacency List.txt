@@ -1,0 +1,63 @@
+
+#include <bits/stdc++.h>
+using namespace std;
+int nNodes;
+int nEdges;
+vector<vector<int> > arr;
+void setNodes(int n)
+{
+    nNodes=n;
+    for(int i=0;i<nNodes;i++){
+        vector<int> v;
+        arr.push_back(v);
+    }
+}
+void addEdge(int u,int v)
+{
+    if(u<0 || u>=nNodes || v<0 || v>=nNodes) return;
+    arr[u].push_back(v);
+    arr[v].push_back(u);
+}
+void removeEdge(int u,int v)
+{
+    if(u<0 || u>=nNodes || v<0 || v>=nNodes) return;
+
+    int p=0;
+    for(p=0;p<arr[u].size();p++){
+        if(arr[u][p]==v) break;
+    }
+    if(p>=arr[u].size()) return;
+    arr[u].erase(arr[u].begin()+p);
+
+    p=0;
+    for(p=0;p<arr[v].size();p++){
+        if(arr[v][p]==u) break;
+    }
+    if(p>=arr[v].size()) return;
+    arr[v].erase(arr[v].begin()+p);
+}
+
+//*void printGraph(){}//
+
+void printAdjacent(int v)
+{
+       for(int j=0;j<arr[v].size();j++){
+            cout<<arr[v][j]<<' ';
+        }
+        cout<<"\n";
+}
+
+
+int main()
+{
+    setNodes(5);
+    addEdge(0,1);
+    addEdge(0,2);
+    addEdge(2,4);
+    addEdge(4,3);
+    printGraph();
+    isAdjacent(0,1);
+    isAdjacent(1,2);
+    printAdjacent(4);
+}
+

@@ -1,0 +1,187 @@
+#include <stdio.h>
+#include<stdlib.h>
+struct node
+{
+    int data;
+    struct node *next;
+    struct node *prev;
+};
+
+struct node *head;
+struct node *tail;
+
+void init()
+{
+    head=0;
+    tail=0;
+}
+
+void insert(int val)
+{
+    struct node *newNode;
+    newNode=(struct node*)malloc(sizeof(struct node));
+    newNode->data=val;
+    newNode->prev=0;
+
+    newNode->next=head;
+    if(head!=0)
+        head->prev=newNode;
+    else
+        tail=newNode;
+    head=newNode;
+}
+
+void print()
+{
+    struct node *temp=head;
+    while(temp!=0)
+    {
+        printf("%d ",temp->data);
+        temp=temp->next;
+    }
+    printf("\n");
+}
+
+//// Complete the following functions and also add them in main function
+
+int length()//The function will return the length of the list
+{
+    int count = 0;
+    struct node *temp;
+    temp=head;
+    while(temp!=NULL)
+    {
+        count++;
+        temp=temp->next;
+    }
+    printf("Length is %d\n",count);
+    return count;
+}
+
+struct node* search(int value) // The function will search the value from the list and return it
+{
+    struct node *temp;
+    temp=head;
+    while(temp!=NULL)
+    {
+        if(temp->data==value)
+        {
+            return temp;
+        }
+        temp=temp->next;
+    }
+    return 0;
+}
+void deleteFirst() // The function will delete the last item of the list
+{
+    struct node *temp;
+    temp = head;
+    head = head ->next;
+    head ->prev = NULL;
+    free(temp);
+}
+
+void insertLast(int value) // The function will insert the value at the end of the list//
+{
+    struct node *newNode;
+    newNode=(struct node*)malloc(sizeof(struct node));
+
+    newNode->data=value;
+    newNode->next=0;
+    newNode->prev=tail;
+
+    if(head!=0)
+    {
+        tail->next=newNode;
+    }
+    else
+    {
+        head=newNode;
+        tail=newNode;
+    }
+}
+
+void deleteItem(int value) // The function will delete the value from the list, if the value exists in the list
+{
+    struct node *prev=0;
+    struct node *temp=head;
+    while(temp!=0)
+    {
+        if(temp->data==value)
+            break;
+        prev=temp;
+        temp=temp->next;
+    }
+    if(head==0)
+        return 0;
+    else if(temp==head)
+    {
+        head=head->next;
+        if(temp->next==0)
+            tail=prev;
+        free(temp);
+    }
+    else
+    {
+        prev->next=temp->next;
+        if(temp->next==0)
+            tail=prev;
+        free(temp);
+    }
+
+}
+
+
+
+int main()
+{
+    init();
+    int op;
+    printf("1.insert\n2.insertLast\n3.print\n");
+    printf("4.Print length\n5.Search\n6.Delete First\n7.Delete Item\n\n");
+    while(1)
+    {
+        scanf("%d",&op);
+        if(op==1)
+        {
+            int val;
+            scanf("%d",&val);
+            insert(val);
+        }
+        else if(op==2)
+        {
+            int val;
+            scanf("%d",&val);
+            insertLast(val);
+        }
+        else if(op==3)
+        {
+            print();
+        }
+        else if(op==4)
+        {
+            length();
+        }
+        else if(op==5)
+        {
+            int val;
+            scanf("%d",&val);
+            struct node *temp=search(val);
+            if(temp==0)
+                printf("Not found.\n");
+            else
+                printf("Found.\n");
+        }
+        else if(op==6)
+        {
+            deleteFirst();
+        }
+        else if(op==7)
+        {
+            int val;
+            scanf("%d",&val);
+            deleteItem(val);
+        }
+
+    }
+}

@@ -1,0 +1,92 @@
+///*STACK USING DOUBLY LINKED LIST*///
+#include<stdio.h>
+#include<stdlib.h>
+
+struct node
+{
+    int data;
+    struct node *prev;
+    struct node *next;
+};
+struct node *top;
+struct node *end;
+
+
+void init()
+{
+    top = 0;
+    end = 0;
+}
+
+void push(int x)
+{
+    struct node *newNode;
+    newNode = (struct node*)malloc(sizeof(struct node));
+    newNode->data = x ;
+    newNode->next = top;
+    if(end==0)
+    {
+        end = newNode;
+    }
+    top = newNode;
+}
+void pop()
+{
+    struct node *temp;
+    temp = top;
+    if(top == 0)
+    {
+        printf("Stack is Empty!\n");
+    }
+    else
+    {
+        printf("Popped: %d\n",top->data);
+        top = top-> next;
+        free(temp);
+    }
+}
+void display()
+{
+    struct node *temp;
+    temp = top;
+    if(top==0)
+    {
+        printf("Stack is Empty!\n");
+    }
+    else
+    {
+        printf("Stack: ");
+        while(temp!=0)
+        {
+            printf("%d ",temp->data);
+            temp = temp->next;
+        }
+        printf("\n");
+    }
+}
+int main()
+{
+    init();
+    int op;
+    printf("1.Push in Stack.\n2.Pop from Stack.\n3.Display Stack.\n\n");
+
+    while(1)
+    {
+        scanf("%d",&op);
+        if(op==1)
+        {
+            int val;
+            scanf("%d",&val);
+            push(val);
+        }
+        else if(op==2)
+        {
+            pop();
+        }
+        else if(op==3)
+        {
+            display();
+        }
+    }
+}
+
